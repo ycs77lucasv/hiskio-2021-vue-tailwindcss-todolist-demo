@@ -11,47 +11,59 @@
           class="w-full px-5 py-4 border-0 placeholder-gray-400 focus:ring-0 focus:placeholder-gray-300 focus:outline-none"
           placeholder="請輸入待辦事項..."
         />
-        <ul class="border-t border-gray-200 divide-y divide-gray-200">
-          <li v-for="(todo, index) in todos" :key="todo.id">
-            <div class="flex justify-between items-center">
-              <div class="px-5 py-2 flex flex-auto items-center select-none">
-                <input
-                  type="checkbox"
-                  v-model="todo.checked"
-                  class="peer text-indigo-600 border-indigo-200 rounded mr-2 cursor-pointer focus:ring-0 focus:ring-offset-0 disabled:text-gray-200 disabled:border-gray-200 disabled:cursor-default"
-                  :disabled="isEditing(index)"
-                />
 
-                <input
-                  v-if="isEditing(index)"
-                  type="text"
-                  class="flex-auto p-2 border-0 focus:ring-0"
-                  v-model="todo.content"
-                  :ref="el => { if (el) el.focus() }"
-                  autofocus
-                  @blur="updateEdit"
-                  @keyup.enter="updateEdit"
-                  @keyup.esc="cancelEdit"
-                />
-                <div
-                  v-else
-                  class="flex-auto p-2 peer-checked:line-through peer-checked:text-gray-300"
-                  @dblclick="editTodo(index)"
-                >
-                  {{ todo.content }}
-                </div>
-              </div>
+        <transition-group
+          tag="ul"
+          class="-space-y-px -mb-px"
+          enter-active-class="transform transition duration-300"
+          enter-from-class="opacity-0 scale-95"
+          enter-to-class="opacity-100 scale-100"
+          leave-active-class="transform transition duration-300"
+          leave-from-class="opacity-100 scale-100"
+          leave-to-class="opacity-0 scale-95"
+        >
+          <li
+            v-for="(todo, index) in todos"
+            :key="todo.id"
+            class="flex justify-between items-center border-t border-b border-gray-200"
+          >
+            <div class="px-5 py-2 flex flex-auto items-center select-none">
+              <input
+                type="checkbox"
+                v-model="todo.checked"
+                class="peer text-indigo-600 border-indigo-200 rounded mr-2 cursor-pointer focus:ring-0 focus:ring-offset-0 disabled:text-gray-200 disabled:border-gray-200 disabled:cursor-default"
+                :disabled="isEditing(index)"
+              />
 
-              <button
-                v-if="!isEditing(index)"
-                @click="removeTodo(index)"
-                class="px-5 py-4 text-purple-200 hover:text-red-500 transition-colors"
+              <input
+                v-if="isEditing(index)"
+                type="text"
+                class="flex-auto p-2 border-0 focus:ring-0"
+                v-model="todo.content"
+                :ref="el => { if (el) el.focus() }"
+                autofocus
+                @blur="updateEdit"
+                @keyup.enter="updateEdit"
+                @keyup.esc="cancelEdit"
+              />
+              <div
+                v-else
+                class="flex-auto p-2 peer-checked:line-through peer-checked:text-gray-300"
+                @dblclick="editTodo(index)"
               >
-                <TrashIcon class="w-5 h-5" />
-              </button>
+                {{ todo.content }}
+              </div>
             </div>
+
+            <button
+              v-if="!isEditing(index)"
+              @click="removeTodo(index)"
+              class="px-5 py-4 text-purple-200 hover:text-red-500 transition-colors"
+            >
+              <TrashIcon class="w-5 h-5" />
+            </button>
           </li>
-        </ul>
+        </transition-group>
       </div>
     </div>
   </div>
@@ -70,8 +82,9 @@ export default {
     const todos = useLocalStorage('todos', [
       { id: 0, content: '學 Vue3', checked: true },
       { id: 1, content: '學 Tailwind CSS', checked: false },
+      { id: 2, content: '學 React', checked: false },
     ])
-    let uid = todos.value[todos.value.length - 1].id + 1
+    let uid = todos.value[todos.value.length - 1]?.id + 1 || 0
 
     // Add todo
     const newTodo = ref('')
