@@ -8,7 +8,7 @@
           autofocus
           v-model="newTodo"
           @keyup.enter="addTodo"
-          class="w-full px-5 py-4 border-0 placeholder-gray-400 focus:ring-0 focus:placeholder-gray-300 focus:outline-none"
+          class="w-full px-5 py-4 border-0 placeholder-gray-400 focus:ring-0 focus:placeholder-gray-300"
           placeholder="請輸入待辦事項..."
         />
 
