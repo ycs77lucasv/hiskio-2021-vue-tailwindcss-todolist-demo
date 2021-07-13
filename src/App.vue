@@ -12,7 +12,7 @@
           placeholder="請輸入待辦事項..."
         />
 
-        <transition-group
+        <TransitionGroup
           tag="ul"
           class="-space-y-px -mb-px"
           enter-active-class="transform transition duration-300"
@@ -41,7 +41,6 @@
                 class="flex-auto p-2 border-0 focus:ring-0"
                 v-model="todo.content"
                 :ref="el => { if (el) el.focus() }"
-                autofocus
                 @blur="updateEdit"
                 @keyup.enter="updateEdit"
                 @keyup.esc="cancelEdit"
@@ -63,7 +62,7 @@
               <TrashIcon class="w-5 h-5" />
             </button>
           </li>
-        </transition-group>
+        </TransitionGroup>
       </div>
     </div>
   </div>
@@ -89,6 +88,7 @@ export default {
     // Add todo
     const newTodo = ref('')
     const addTodo = () => {
+      if (!newTodo.value) return
       todos.value.push({
         id: uid++,
         content: newTodo.value,
