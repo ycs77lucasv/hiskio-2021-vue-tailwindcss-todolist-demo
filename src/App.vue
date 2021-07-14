@@ -105,7 +105,6 @@ export default {
       editTodoCache = todos.value[index].content
     }
     const updateEdit = () => {
-      if (editTodoId.value === null) return
       if (!todos.value[editTodoId.value].content) {
         removeTodo(editTodoId.value)
       }
