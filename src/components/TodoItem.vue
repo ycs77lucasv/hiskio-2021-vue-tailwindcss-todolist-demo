@@ -1,6 +1,6 @@
 <template>
-  <li class="flex justify-between items-center border-t border-b border-gray-200">
-    <div class="flex px-5 py-3 flex-auto items-center select-none">
+  <li class="flex justify-between items-center bg-white rounded-lg">
+    <div class="flex px-5 py-2 flex-auto items-center select-none">
       <input
         type="checkbox"
         class="peer w-5 h-5 mr-2 text-indigo-600 border-indigo-200 rounded-full cursor-pointer focus:ring-0 focus:ring-offset-0 disabled:cursor-default"
@@ -12,7 +12,7 @@
       <input
         v-if="isEditing"
         type="text"
-        class="flex-auto p-1 rounded focus:border-indigo-600 focus:ring-0"
+        class="flex-auto p-1 text-indigo-700 border-0 rounded focus:ring-0"
         v-model="content"
         :ref="el => { if (el) inlineInputRef = el }"
         @blur="updateTodo"
@@ -21,7 +21,7 @@
       />
       <div
         v-else
-        class="flex-auto p-1 border border-transparent peer-checked:line-through peer-checked:text-gray-300"
+        class="flex-auto p-1 text-indigo-700 peer-checked:line-through peer-checked:text-indigo-300"
         @dblclick="editTodo"
       >
         {{ content }}
@@ -31,7 +31,7 @@
     <button
       v-if="checked && !isEditing"
       @click="removeTodo"
-      class="px-5 py-4 text-purple-200 hover:text-red-500 transition-colors"
+      class="px-5 py-2 text-purple-200 hover:text-red-500 transition-colors"
     >
       <TrashIcon class="w-5 h-5" />
     </button>
@@ -46,9 +46,8 @@ export default {
   components: {
     TrashIcon,
   },
-  emits: ['toggleChecked', 'updateTodo', 'removeTodo'],
+  emits: ['toggle-checked', 'update-todo', 'remove-todo'],
   props: {
-    index: Number,
     id: Number,
     content: String,
     checked: Boolean,
@@ -64,7 +63,7 @@ export default {
     })
 
     const toggleChecked = () => {
-      emit('toggleChecked', props.id)
+      emit('toggle-checked', props.id)
     }
 
     const editTodo = () => {
@@ -77,7 +76,8 @@ export default {
         return
       }
 
-      emit('updateTodo', props.id, content.value)
+      emit('update-todo', props.id, content.value)
+
       isEditing.value = false
     }
 
@@ -88,14 +88,13 @@ export default {
     }
 
     const removeTodo = () => {
-      emit('removeTodo', props.id)
+      emit('remove-todo', props.id)
     }
 
     return {
       content,
       isEditing,
       inlineInputRef,
-
       toggleChecked,
       editTodo,
       updateTodo,
