@@ -4,9 +4,9 @@ import { useLocalStorage } from '@vueuse/core'
 export default function useTodos() {
   // const todos = useLocalStorage('todos', [
   const todos = ref([
-    { id: 3, content: '學 HTML', checked: true },
-    { id: 1, content: '學 Vue 3', checked: false },
-    { id: 2, content: '學 Tailwind CSS', checked: false },
+    { id: 3, content: '學 HTML', isDone: true },
+    { id: 1, content: '學 Vue 3', isDone: false },
+    { id: 2, content: '學 Tailwind CSS', isDone: false },
   ])
 
   const findTodoIndex = id => todos.value.findIndex(todo => todo.id === id)
@@ -15,13 +15,13 @@ export default function useTodos() {
     todos.value.push({
       id: new Date().getTime(),
       content: newTodo,
-      checked: false,
+      isDone: false,
     })
   }
 
-  const toggleChecked = id => {
+  const toggleState = id => {
     const index = findTodoIndex(id)
-    todos.value[index].checked = !todos.value[index].checked
+    todos.value[index].isDone = !todos.value[index].isDone
   }
 
   const updateTodo = (id, content) => {
@@ -39,7 +39,7 @@ export default function useTodos() {
   return {
     todos,
     addTodo,
-    toggleChecked,
+    toggleState,
     updateTodo,
     removeTodo,
   }

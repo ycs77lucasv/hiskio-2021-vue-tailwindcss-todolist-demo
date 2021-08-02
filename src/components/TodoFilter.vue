@@ -20,8 +20,8 @@ export default {
   setup(props, { emit }) {
     const filters = [
       { label: '全部', value: 'all' },
-      { label: '未完成', value: 'unchecked' },
-      { label: '已完成', value: 'checked' },
+      { label: '未完成', value: 'undone' },
+      { label: '已完成', value: 'done' },
     ]
 
     const changeFilter = filter => {

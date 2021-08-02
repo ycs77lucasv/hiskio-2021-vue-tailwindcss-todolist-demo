@@ -8,8 +8,8 @@ export default function useFilteredTodos(todos) {
   const filteredTodos = computed(() => {
     return {
       all: todos.value,
-      unchecked: todos.value.filter(todo => !todo.checked),
-      checked: todos.value.filter(todo => todo.checked),
+      undone: todos.value.filter(todo => !todo.isDone),
+      done: todos.value.filter(todo => todo.isDone),
     }[filter.value]
   })
 

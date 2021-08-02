@@ -26,7 +26,7 @@
         v-for="todo in filteredTodos"
         :key="todo.id"
         v-bind="todo"
-        @toggle-checked="toggleChecked"
+        @toggle-state="toggleState"
         @update-todo="updateTodo"
         @remove-todo="removeTodo"
       />
@@ -48,13 +48,13 @@ export default {
     TodoFilter,
   },
   setup() {
-    const { todos, addTodo, toggleChecked, updateTodo, removeTodo } = useTodos()
+    const { todos, addTodo, toggleState, updateTodo, removeTodo } = useTodos()
     const { filter, filteredTodos, changeFilter } = useFilteredTodos(todos)
 
     return {
       todos,
       addTodo,
-      toggleChecked,
+      toggleState,
       updateTodo,
       removeTodo,
       filter,

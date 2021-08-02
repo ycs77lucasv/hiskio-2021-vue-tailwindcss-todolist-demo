@@ -4,8 +4,8 @@
       <input
         type="checkbox"
         class="peer w-5 h-5 mr-2 text-indigo-600 border-indigo-200 rounded-full cursor-pointer focus:ring-0 focus:ring-offset-0 disabled:cursor-default"
-        :checked="checked"
-        @change="toggleChecked"
+        :checked="isDone"
+        @change="toggleState"
         :disabled="isEditing"
       />
 
@@ -29,7 +29,7 @@
     </div>
 
     <button
-      v-if="checked && !isEditing"
+      v-if="isDone && !isEditing"
       @click="removeTodo"
       class="px-5 py-2 text-purple-200 hover:text-red-500 transition-colors"
     >
@@ -46,11 +46,11 @@ export default {
   components: {
     TrashIcon,
   },
-  emits: ['toggle-checked', 'update-todo', 'remove-todo'],
+  emits: ['toggle-state', 'update-todo', 'remove-todo'],
   props: {
     id: Number,
     content: String,
-    checked: Boolean,
+    isDone: Boolean,
   },
   setup(props, { emit }) {
     const content = ref(props.content)
@@ -62,8 +62,8 @@ export default {
       if (el) el.focus()
     })
 
-    const toggleChecked = () => {
-      emit('toggle-checked', props.id)
+    const toggleState = () => {
+      emit('toggle-state', props.id)
     }
 
     const editTodo = () => {
@@ -95,7 +95,7 @@ export default {
       content,
       isEditing,
       inlineInputRef,
-      toggleChecked,
+      toggleState,
       editTodo,
       updateTodo,
       cancelEdit,
