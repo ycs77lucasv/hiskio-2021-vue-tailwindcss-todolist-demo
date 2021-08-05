@@ -5,6 +5,12 @@ export default function useFilteredTodos(todos) {
   // const filter = useLocalStorage('filter', 'all')
   const filter = ref('all')
 
+  const filters = [
+    { label: '全部', value: 'all' },
+    { label: '未完成', value: 'undone' },
+    { label: '已完成', value: 'done' },
+  ]
+
   const filteredTodos = computed(() => {
     return {
       all: todos.value,
@@ -19,6 +25,7 @@ export default function useFilteredTodos(todos) {
 
   return {
     filter,
+    filters,
     filteredTodos,
     changeFilter,
   }

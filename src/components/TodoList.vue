@@ -8,6 +8,7 @@
       v-if="todos.length"
       class="mt-6"
       :selected="filter"
+      :options="filters"
       @chage-filter="newFilter => filter = newFilter"
     />
 
@@ -49,7 +50,7 @@ export default {
   },
   setup() {
     const { todos, addTodo, toggleState, updateTodo, removeTodo } = useTodos()
-    const { filter, filteredTodos, changeFilter } = useFilteredTodos(todos)
+    const { filter, filters, filteredTodos, changeFilter } = useFilteredTodos(todos)
 
     return {
       todos,
@@ -58,6 +59,7 @@ export default {
       updateTodo,
       removeTodo,
       filter,
+      filters,
       filteredTodos,
       changeFilter,
     }
