@@ -14,7 +14,7 @@
         type="text"
         class="flex-auto p-1 text-indigo-700 border-0 rounded focus:ring-0"
         v-model="content"
-        :ref="el => { if (el) inlineInputRef = el }"
+        :ref="el => { if (el) el.focus() }"
         @blur="updateTodo"
         @keyup.enter="updateTodo"
         @keyup.esc="cancelEdit"
@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import { TrashIcon } from '@heroicons/vue/outline'
 
 export default {
@@ -56,11 +56,6 @@ export default {
     const content = ref(props.content)
     const isEditing = ref(false)
     const isCancel = ref(false)
-
-    const inlineInputRef = ref(null)
-    watch(inlineInputRef, el => {
-      if (el) el.focus()
-    })
 
     const toggleState = () => {
       emit('toggle-state', props.id)
@@ -94,7 +89,6 @@ export default {
     return {
       content,
       isEditing,
-      inlineInputRef,
       toggleState,
       editTodo,
       updateTodo,
