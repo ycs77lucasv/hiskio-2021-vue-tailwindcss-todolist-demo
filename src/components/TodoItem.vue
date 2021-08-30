@@ -71,6 +71,8 @@ export default {
         return
       }
 
+      if (!isEditing.value) return
+
       emit('update-todo', props.id, content.value)
 
       isEditing.value = false
