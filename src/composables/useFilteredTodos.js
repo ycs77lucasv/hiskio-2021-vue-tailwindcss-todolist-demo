@@ -1,22 +1,23 @@
 import { computed, ref } from 'vue'
-import { useLocalStorage } from '@vueuse/core'
 
 export default function useFilteredTodos(todos) {
-  // const filter = useLocalStorage('filter', 'all')
   const filter = ref('all')
 
-  const filters = [
-    { label: '全部', value: 'all' },
-    { label: '未完成', value: 'undone' },
-    { label: '已完成', value: 'done' },
-  ]
-
+  // 用 `object` 取代 `if/else`，讓程式碼比較整潔
   const filteredTodos = computed(() => {
     return {
       all: todos.value,
+      isdone: todos.value.filter(todo => todo.isDone),
       undone: todos.value.filter(todo => !todo.isDone),
-      done: todos.value.filter(todo => todo.isDone),
     }[filter.value]
+
+    // // 上面寫法和以下是相等的結果
+    // if (filter.value === 'isdone') {
+    //   return todos.value.filter(todo => todo.isDone)
+    // } else if (filter.value === 'undone') {
+    //   return todos.value.filter(todo => !todo.isDone)
+    // }
+    // return todos.value
   })
 
   const changeFilter = newFilter => {
@@ -25,7 +26,6 @@ export default function useFilteredTodos(todos) {
 
   return {
     filter,
-    filters,
     filteredTodos,
     changeFilter,
   }

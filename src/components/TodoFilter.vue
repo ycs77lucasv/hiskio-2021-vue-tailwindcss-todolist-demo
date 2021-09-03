@@ -1,12 +1,43 @@
 <template>
   <div class="flex space-x-2">
+    <!--
+      class:
+        `transition-colors`: 增加切換顏色時的過渡效果
+    -->
     <button
-      v-for="filter in options"
-      class="text-sm font-semibold rounded transition-colors duration-150"
-      :class="selected === filter.value ? 'text-indigo-500 hover:text-indigo-700' : 'text-indigo-200 hover:text-indigo-300'"
-      @click="changeFilter(filter.value)"
+      class="font-semibold transition-colors"
+      :class="
+        filter === 'all'
+          ? 'text-indigo-500 hover:text-indigo-700'
+          : 'text-indigo-200 hover:text-indigo-300'
+      "
+      @click="changeFilter('all')"
     >
-      {{ filter.label }}
+      全部
+    </button>
+
+    <button
+      class="font-semibold transition-colors"
+      :class="
+        filter === 'undone'
+          ? 'text-indigo-500 hover:text-indigo-700'
+          : 'text-indigo-200 hover:text-indigo-300'
+      "
+      @click="changeFilter('undone')"
+    >
+      未完成
+    </button>
+
+    <button
+      class="font-semibold transition-colors"
+      :class="
+        filter === 'isdone'
+          ? 'text-indigo-500 hover:text-indigo-700'
+          : 'text-indigo-200 hover:text-indigo-300'
+      "
+      @click="changeFilter('isdone')"
+    >
+      已完成
     </button>
   </div>
 </template>
@@ -15,8 +46,7 @@
 export default {
   emits: ['chage-filter'],
   props: {
-    selected: String,
-    options: Array,
+    filter: String,
   },
   setup(props, { emit }) {
     const changeFilter = filter => {
