@@ -2,7 +2,6 @@
   <form class="relative" @submit.prevent="addTodo">
     <input
       type="text"
-      autofocus
       v-model="newTodo"
       class="
         w-full

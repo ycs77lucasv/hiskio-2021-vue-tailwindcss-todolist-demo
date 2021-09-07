@@ -23,16 +23,20 @@
           `flex-auto`: 自動延伸 flex 空間剩下可分配的區域
 
         事件:
-          @blur:        編輯完可以點其他任意處，觸發 blur 事件更新 todo
-          @keyup.enter: 點 Enter 一樣可以更新 todo
-          @keyup.esc:   取消編輯 1: 點 ESC 取消編輯
+          @blur         編輯完可以點其他任意處，觸發 blur 事件更新 todo
+          @keyup.enter  點 Enter 一樣可以更新 todo
+          @keyup.esc    取消編輯 1: 點 ESC 取消編輯
+
+        開始編輯時自動focus 1:
+          ref="editInput"  (下方 39 行)
+          命名編輯框為 `editInput`
       -->
       <input
         v-if="isEditing"
         type="text"
         class="flex-auto p-1 text-indigo-700 border-0 rounded focus:ring-0"
         v-model="content"
-        :ref="el => { if (el) el.focus() }"
+        ref="editInput"
         @blur="updateTodo"
         @keyup.enter="updateTodo"
         @keyup.esc="cancelEdit"
@@ -69,7 +73,7 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { nextTick, ref } from 'vue'
 
 // Heroicons 1. 安裝
 // 可以安裝 `npm i @heroicons/vue` 來使用 Heroicons 上的 icon
@@ -91,6 +95,12 @@ export default {
     const content = ref(props.content)
     const isEditing = ref(false)
 
+    // 開始編輯時自動focus 2:
+    //   在 HTML 裡設定了 ref="editInput"
+    //   這裡就可以設一個變數 editInput 為 `ref(null)`
+    //   並使用 editInput.value 取得該元素
+    const editInput = ref(null)
+
     // 取消編輯 2: 取消編輯狀態
     const isCancel = ref(false)
 
@@ -100,6 +110,14 @@ export default {
 
     const editTodo = () => {
       isEditing.value = true
+
+      // 開始編輯時自動focus 3:
+      //   因為上面修改了當前項目為編輯狀態 (isEditing.value = true)
+      //   如果這裡要操作 DOM 就必須要使用 `nextTick()`，等待 Vue 更新完 DOM (記得要引入 `nextTick()`)
+      nextTick(() => {
+        // 聚焦輸入框
+        editInput.value.focus()
+      })
     }
 
     const updateTodo = () => {
@@ -148,6 +166,7 @@ export default {
     return {
       content,
       isEditing,
+      editInput,
       toggleState,
       editTodo,
       updateTodo,
