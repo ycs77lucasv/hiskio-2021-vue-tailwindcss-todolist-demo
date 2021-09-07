@@ -35,7 +35,7 @@ export default function useTodos() {
     if (content) {
       todos.value[index].content = content
     } else {
-      // 如果在編輯狀態下清空文字，就執行刪除 todo 操作
+      // 如果在編輯狀態下儲存空字串，就刪除該 todo
       removeTodo(id)
     }
   }
